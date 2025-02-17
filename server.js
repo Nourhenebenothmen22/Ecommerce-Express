@@ -22,6 +22,8 @@ app.use("/facture",factureRoute)
 app.use("/order",orderroute)
 const userroute=require("./Routes/userroute")
 app.use("/user",userroute)
+const commanderoute=require("./Routes/CommandeRoute")
+app.use("/commande",commanderoute)
 app.listen(port, () => {
     console.log(`Application exemple à l'écoute sur le port ${port}!`);
   });

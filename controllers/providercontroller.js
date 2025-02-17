@@ -1,6 +1,8 @@
 
 const ProviderModule = require("../Modules/providermodule")
 const nodemailer = require('nodemailer');
+const {randomBytes} = require("crypto");
+const generateCode = randomBytes(6).toString("hex");
 const transporter = nodemailer.createTransport({
     host: 'sandbox.smtp.mailtrap.io',
     port: 2525,
@@ -13,7 +15,7 @@ const transporter = nodemailer.createTransport({
 module.exports={
     Createprovider:async(req,res)=>{
         try {
-            const provider=await ProviderModule(req.body)
+            const provider=await ProviderModule({...req.body,code:generateCode})
            const savedprovider= await provider.save()
             res.status(200).json({
                 success:true,
@@ -25,7 +27,19 @@ module.exports={
                 to: savedprovider.email,
                 subject: 'hello' + '' +savedprovider.fullname,
                 text: 'mail de confirmation',
-                html:'<h1>hello world</h1>'
+                html:`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+            </head>
+            <body>
+                <h1>verify account</h1>
+                <a href ="http://localhost:3000/user/verify/${savedprovider.code}"> click here </a>
+            </body>
+            </html>`
               };
               transporter.sendMail(mailOptions
                 
