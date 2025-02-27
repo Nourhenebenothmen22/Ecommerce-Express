@@ -1,4 +1,6 @@
 const ProductModel= require("../Modules/ProductModule")
+const providerModel=require("../Modules/providermodule")
+const subcategorieModel=require("../Modules/subcategoriemodule")
 module.exports={
     createProduct:async(req,res)=>{
        try {
@@ -10,11 +12,21 @@ module.exports={
        }
         const product=await ProductModel(req.body)
         await product.save()
+        await providerModel.findByIdAndUpdate({_id:req.body.provider},{$push:{
+            products:product._id
+
+        }})
+        await subcategorieModel.findByIdAndUpdate({_id:req.body.subcategorie},{$push:{
+            products:product._id
+
+        }})
         res.status(200).json({
             success:true,
             message:'product is created',
             data:product
         })
+
+
         
        } catch (error) {
         res.status(400).json({

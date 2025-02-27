@@ -1,9 +1,11 @@
 const subcategorieModel=require("../Modules/subcategoriemodule")
+const categorieModel=require("../Modules/subcategoriemodule")
 module.exports={
     createSubcategorie:async(req,res)=>{
         try {
            const subcategorie=await subcategorieModel(req.body)
            await subcategorie.save()
+           await categorieModel.findByIdAndUpdate(req.body.categorieId,{$push:{subcategorieId:subcategorie}})
            res.status(200).json({
             success:true,
             message:"subcategorie crated",

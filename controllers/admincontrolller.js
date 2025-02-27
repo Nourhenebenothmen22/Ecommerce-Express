@@ -50,7 +50,7 @@ module.exports={
         } catch (error) {
             res.status(400).json({
                 success:false,
-                message: "admin not created created",
+                message: "admin not created"+error,
                 data:null
             })
             

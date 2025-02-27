@@ -1,10 +1,16 @@
 const orderModule = require("../Modules/orderModule")
+const commandeModel=require("../Modules/CommandeModule")
 module.exports={
     createOrder:async(req,res)=>{
         
          try {
             const order=await orderModule(req.body)
             await order.save()
+            await commandeModel.findByIdAndUpdate({_id:req.body.commande},{$push:{
+                Orders:order._id
+            
+                    }})
+        
             res.status(200).json({
                 success:true,
                 message:"order is created",

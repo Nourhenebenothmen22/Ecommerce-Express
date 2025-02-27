@@ -59,7 +59,7 @@ module.exports={
     },
      listeProvider:async(req,res)=>{
             try {
-                const provider=await providermodule.find()
+                const provider=await ProviderModule.find()
                 res.status(200).json({
                     success:true,
                     message:"liste provider",
@@ -78,31 +78,37 @@ module.exports={
             }
 
 },
-getProviderByid:async(req,res)=>{
-    const id=req.params.id
+getproviderById : async (req,res) => {
     try {
-        const getprovider=await providermodule.findById(id)
+        const providerId = req.params.id;
+        const provider = await ProviderModule.findById(providerId)
+        if (!provider) {
+      return res.status(404).json({
+        success: false,
+        message: "Provider not found",
+        data: null,
+      });
+    }
         res.status(200).json({
             success:true,
-            message:"liste provider",
-            data:getprovider
+            message:"provider found",
+            data:provider
         })
-
-    } catch (error) {
-        res.status(400).json({
-            success:false,
-            message:"provider is  not listed"+error,
-            data:null
-
-        })
-         
-        
     }
+    catch(error) {
+        console.error("Erreur lors de la recherche de fournisseur :", error);
+        res.status(500).json({
+            success:false,
+            message:"Erreur interne du serveur",
+            data:null
+        })
+}
 },
+
 deleteprovider:async(req,res)=>{
     const id=req.params.id
     try {
-        const deleteprov= await providermodule.findByIdAndDelete(id)
+        const deleteprov= await ProviderModule.findByIdAndDelete(id)
         res.status(200).json({
             success:true,
             message:"liste is deleted",
@@ -121,7 +127,7 @@ deleteprovider:async(req,res)=>{
 Updateprovider:async(req,res)=>{
         const id=req.params.id
       try {
-        const updateprov=await providermodule.findByIdAndUpdate(id,req.body,{new:true})
+        const updateprov=await ProviderModule.findByIdAndUpdate(id,req.body,{new:true})
         res.status(200).json({
             success:true,
             message:"provider is updated",

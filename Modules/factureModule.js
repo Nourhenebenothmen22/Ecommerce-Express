@@ -9,6 +9,10 @@ const factureSchema=new mongoose.Schema({
     },
     description:{
         type:String
+    },
+    commande: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Commande',
     }
 })
 module.exports=mongoose.model("facture",factureSchema)

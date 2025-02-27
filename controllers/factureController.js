@@ -1,9 +1,13 @@
+const CommandeModule = require("../Modules/CommandeModule")
 const factureModule=require("../Modules/factureModule")
 module.exports={
     createfacture:async(req,res)=>{
         try {
             const facture=await factureModule(req.body)
                        await facture.save()
+                       await CommandeModule.findByIdAndUpdate({_id:req.body.commande},{$push:
+                        {facture:facture}
+                       })
                        res.status(200).json({
                            success:true,
                            message:"facture is created",
@@ -23,6 +27,9 @@ module.exports={
      const id=req.params.id
      try {
         const deleteFact=await factureModule.findByIdAndDelete(id)
+        await CommandeModule.updateMany({facture:id},{$pull:
+            {facture:id}
+           })
         res.status(200).json({
             success:true,
             message:"facture is deleted",

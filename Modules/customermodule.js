@@ -12,7 +12,11 @@ const customerScheam=new mongoose.Schema({
     },
     City:{
         type:String
-    }
+    },
+    commandes:[{
+            type:mongoose.Types.ObjectId,
+            ref:'commande'
+        }]
 
 })
 usermodule.discriminator("customer",customerScheam)

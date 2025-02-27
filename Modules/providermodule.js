@@ -10,7 +10,11 @@ const providerScheama=new mongoose.Schema({
     },
     services:{
         type:String
-    }
+    },
+    products:[{
+        type:mongoose.Types.ObjectId,
+        ref:'product'
+    }]
 
 })
 usermodule.discriminator("provider",providerScheama)

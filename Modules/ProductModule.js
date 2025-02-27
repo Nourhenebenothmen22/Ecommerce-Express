@@ -14,14 +14,24 @@ const productSchema=new mongoose.Schema({
         type:String,
     },
     price:{
-        type:Number,
-        min: 0
+        type:Number
     },
     galleries:[gallerieschema] ,
     qte: {
-        type: Number,
-        min: 0, 
-        default: 0 
+        type: Number
+    },
+    provider:{
+        type:mongoose.Types.ObjectId,
+        ref:'provider'
+    },
+    subcategorie:{
+        type:mongoose.Types.ObjectId,
+        ref:'subcategorie'
+    },
+    order: { 
+        type:mongoose.Types.ObjectId, 
+        ref: 'order',
+        unique: true 
     }
 
 })

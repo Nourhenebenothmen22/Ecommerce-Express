@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const CommandeSchema = new mongoose.Schema({
   date: {
-    type: Date, 
+    type: Date
   },
   etat: {
     type: String,
-    enum: ["en cours", "en préparation", "expédié", "livré", "annulé"], 
+    enum: ["en cours", "en préparation", "expédié", "livré", "annulé"]
   },
   lieulivraison: {
     type: String
@@ -19,6 +19,19 @@ const CommandeSchema = new mongoose.Schema({
     type: Number,
     min: 0, 
   },
-});
+   customer:{
+          type:mongoose.Types.ObjectId,
+          ref:'customer'
+      },
+         Orders:[{
+                      type:mongoose.Types.ObjectId,
+                      ref:'order'
+                  }],
+                  facture: {
+                    type: mongoose.Types.ObjectId,
+                    ref: 'facture'
+                }
+  
+})
 
-module.exports = mongoose.model("Commande", CommandeSchema); // Use "Commande" as the model name
+module.exports = mongoose.model("Commande", CommandeSchema); 
